@@ -15,6 +15,12 @@ import os
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 from utils.InputDataProcess import GlobalConfig
+
+# import libary for multi gpu process
+# import torch.distributed.autograd as dist_autograd
+# from torch.distributed.optim import DistributedOptimizer
+# from torch.nn.parallel import DistributedDataParallel as DDP
+# from torch.distributed.rpc import RRef
 class Training:
     def __init__(self,
                  model: nn.Module,
@@ -32,12 +38,14 @@ class Training:
         # 1.Setup criterion and optimizer
         self.device =  'cuda' if torch.cuda.is_available() else 'cpu'
         print('Training on', self.device)
-        self.model = model.to(self.device)
+        if torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            model = nn.DataParallel(model).to(self.device)
         self.dataset = dataset
         self.criterion = criterion
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr = lr)
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer,
-                                                                    mode='min',
+                                                                    mode='min', 
                                                                     patience= 5,
                                                                     verbose=True,
                                                                    )

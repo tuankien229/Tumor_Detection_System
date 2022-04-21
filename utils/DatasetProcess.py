@@ -13,7 +13,7 @@ import torchio as tio
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
-# from utils.InputDataProcess import GlobalConfig
+from utils.InputDataProcess import GlobalConfig
 import warnings
 warnings.filterwarnings('ignore')
 class BratsDataSet(Dataset):
@@ -123,10 +123,11 @@ class GetData():
                                 )
         print('Finish Load DataSet')
         return data_loader
-# Test
+# Test Done!
 # if __name__ == '__main__':
 #     config = GlobalConfig()
 #     getdata = GetData()
-#     dataloader = getdata.get_dataloader(dataset=BratsDataSet, path_to_csv=config.train_df, phase='valid', fold=0)
-#     len(dataloader)
+#     path_to_csv = os.path.join(config.root_system, config.check_point + config.train_df)
+#     dataloader = getdata.get_dataloader(dataset=BratsDataSet, path_to_csv=path_to_csv, phase='valid', fold=0)
+#     print(len(dataloader))
     

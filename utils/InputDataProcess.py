@@ -74,7 +74,8 @@ class ProcessData():
         train_df.to_csv(os.path.join(config.root_system, config.check_point +  save_data_path), index = False)
     
 
-# Test
+
+# Test Done!
 if __name__ == '__main__':
     config = GlobalConfig()
     data = ProcessData()
